@@ -21,17 +21,20 @@ def buyer(remaining_tickets):
     limit = 4
     print('Hello, welcome to the Ticket Stand!')
     # Prompt the user for the desired number of tickets
-    sold = input('How many tickets would you like to buy?: ')
-
-    while sold.isdigit() == False:
-        sold = input("I'm sorry, can you please tell me how many tickets?: ")
-    else:
+    while True:
+        sold = input('How many tickets would you like to buy?: ')
+        if sold.isdigit() == False:
+            print("I'm sorry, what was that?")
+            continue
         sold = int(sold)
+        if sold < 1:
+            print("I'm sorry, what was that?")
+            continue
         if sold <= limit and sold <= remaining_tickets:
              print(f'Alright, here are {sold} tickets!')
+             # Return the number of tickets sold
              return sold
         else:
             print('Sorry, we do not have enough tickets!')
-    # return sold
 
 buyer(20)
