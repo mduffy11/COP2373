@@ -1,5 +1,29 @@
 # An application to pre-sell a limited number of cinema tickets.
 def box_office():
+    """
+    Calls the customer function and loops the ticket selling process
+    until all tickets have been sold.
+
+    Parameters:
+        None
+
+    Variables:
+        tickets (int): Tracks the remaining number of tickets for sale.
+        buyers (int): Accumulator used to count the total number of buyers.
+
+    Logic:
+        1. Initialize the number of tickets to 20.
+        2. Initialize buyers to 0.
+        3. Loop while tickets remaining is greater than 0.
+        4. Call the customer function and subtract the returned value from tickets.
+        5. Add one to buyers after each customer call.
+        6. Display the number of remaining tickets after each sale.
+        7. Display the total number of buyers once all tickets are sold.
+
+    Return:
+        None
+    """
+
     # No more than 20 tickets can be sold total.
     tickets = 20
     # We will count how many buyers there were.
@@ -20,6 +44,31 @@ def box_office():
     print(f'We had {buyers} people buy tickets. What a day!')
 
 def customer(remaining_tickets):
+    """
+    Asks the user how many tickets they want and validates the input.
+
+    Parameters:
+        remaining_tickets (int): The number of tickets currently available.
+
+    Variables:
+        limit (int): Maximum number of tickets a buyer may purchase.
+        sold (int): Number of tickets requested by the buyer.
+
+    Logic:
+        1. Set the limit to 4 tickets per customer.
+        2. Prompt the user to input the number of tickets to buy.
+        3. Validate that the input is a number.
+        4. Convert the input to an integer.
+        5. Validate that the number is more than 0.
+        6. Validate that the number is within the limit and the number of
+           remaining tickets.
+        7. If valid, return the number of tickets sold.
+           Otherwise, display an error message and repeat the prompt.
+
+    Return:
+        int: The number of tickets the customer purchased.
+    """
+
     # Each buyer can buy up to 4 tickets.
     limit = 4
 
