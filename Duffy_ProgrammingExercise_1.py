@@ -33,7 +33,7 @@ def box_office():
     while tickets > 0:
         print('Hello, welcome to the pre-sale Box Office!')
 
-        #Call the buyer function. Adjust ticket total and buyer total.
+        # Call the buyer function. Adjust ticket total and buyer total.
         tickets = tickets - customer(tickets)
         buyers += 1
 
@@ -42,6 +42,7 @@ def box_office():
 
     # After all tickets are sold, display the total number of buyers.
     print(f'We had {buyers} people buy tickets. What a day!')
+
 
 def customer(remaining_tickets):
     """
@@ -87,15 +88,20 @@ def customer(remaining_tickets):
             print("I'm sorry, what was that?")
             continue
 
-        # Make sure their request is within the limit of four, and
-        # make sure we have that many tickets.
-        if sold <= limit and sold <= remaining_tickets:
-             print(f'Alright, here are {sold} tickets!')
+        # Make sure their request is within the limit of four and
+        # provide a clearer message when the request exceeds the per-customer limit.
+        if sold > limit:
+            print('Unfortunately, the limit is four tickets per customer.')
 
-             # Return the number of tickets sold to the box office.
-             return sold
-        else:
+        # Make sure we have that many tickets.
+        elif sold > remaining_tickets:
             print('Sorry, we do not have enough tickets!')
+            # Return the number of tickets sold to the box office.
+
+        else:
+            print(f'Alright, here are {sold} tickets!')
+            return sold
+
 
 if __name__ == "__main__":
     box_office()
