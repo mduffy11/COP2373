@@ -20,7 +20,6 @@ def main():
     ]
 
     for product in products:
-
         #Try to perform the calculations, assuming data is of the correct type.
         try:
             #Make sure the numeric values are the correct data type.
@@ -30,10 +29,9 @@ def main():
             discount_amount = calculate_discount(price, discount_rate)
             final_price = apply_discount(price, discount_amount)
 
-
         #In the event an error still occurs, provide the user with an explanation.
         except (ValueError, TypeError):
-
+            #Output a meaningful error message in a matching format.
             print(f"Product: {product['name']}")
             print(f"Unfortunately, the {product['name']}")
             print(f"price cannot be displayed")
