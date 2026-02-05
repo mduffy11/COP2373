@@ -25,7 +25,7 @@ def box_office():
     """
 
     # No more than 20 tickets can be sold total.
-    tickets = 20
+    tickets = 10
     # We will count how many buyers there were.
     buyers = 0
 
