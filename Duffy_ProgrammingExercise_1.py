@@ -75,7 +75,7 @@ def customer(remaining_tickets):
 
     # Prompt the user for the desired number of tickets
     while True:
-        sold = input('How many tickets would you like to buy?: ')
+        sold = input('What quantity of tickets do you care to purchase?: ')
 
         # Validate whether they asked for a number
         if sold.isdigit() == False:
