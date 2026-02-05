@@ -9,16 +9,16 @@ def box_office():
 
     Variables:
         tickets (int): Tracks the remaining number of tickets for sale.
-        buyers (int): Accumulator used to count the total number of buyers.
+        attendees (int): Accumulator used to count the total number of attendees.
 
     Logic:
         1. Initialize the number of tickets to 20.
-        2. Initialize buyers to 0.
+        2. Initialize attendees to 0.
         3. Loop while tickets remaining is greater than 0.
         4. Call the customer function and subtract the returned value from tickets.
-        5. Add one to buyers after each customer call.
+        5. Add one to attendees after each customer call.
         6. Display the number of remaining tickets after each sale.
-        7. Display the total number of buyers once all tickets are sold.
+        7. Display the total number of attendees once all tickets are sold.
 
     Return:
         None
@@ -26,8 +26,8 @@ def box_office():
 
     # No more than 20 tickets can be sold total.
     tickets = 10
-    # We will count how many buyers there were.
-    buyers = 0
+    # We will count how many attendees there were.
+    attendees = 0
 
     # Repeat until all tickets have been sold.
     while tickets > 0:
@@ -35,13 +35,13 @@ def box_office():
 
         # Call the buyer function. Adjust ticket total and buyer total.
         tickets = tickets - customer(tickets)
-        buyers += 1
+        attendees += 1
 
         # display the number of remaining tickets after their purchase.
         print(f'Enjoy the show! We have {tickets} tickets left!')
 
-    # After all tickets are sold, display the total number of buyers.
-    print(f'We had {buyers} people buy tickets. What a day!')
+    # After all tickets are sold, display the total number of attendees.
+    print(f'We had {attendees} people buy tickets. What a day!')
 
 
 def customer(remaining_tickets):
