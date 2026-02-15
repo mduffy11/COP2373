@@ -18,6 +18,25 @@ def scanner(message):
             # If it does, add a point
             scam_score += 1
 
+# Function to clean messages before scanning
+def normalizer(message):
+    # Convert to lower case
+    message = message.lower()
+
+    # Establish a list of punctuation symbols
+    punctuation = [".", ",", "!", "?", ":", ";", "'", "\"", "(", ")", "[", "]",
+                   "{", "}", "-", "_", "/", "\\", "@", "#", "$", "%", "&", "*",
+                   "+", "=", "<", ">", "|", "~", "`", "’", "“", "”"]
+    # Replace symbols with whitespace
+    for ch in punctuation:
+        message = message.replace(ch, " ")
+
+    # Collapse white space
+    message = " ".join(message.split())
+    # Send cleaned message back to call point
+    return message
+
+
 # List of spammy phrases to monitor for
 triggers = [
     "Act Now",
