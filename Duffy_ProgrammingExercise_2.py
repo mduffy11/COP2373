@@ -11,6 +11,8 @@ def scanner(message):
     scam_score = 0
     # Loop through the 30 phrases
     for phrase in triggers:
+        # Count each instance of the phrase found
+        occurrences = message.count(phrase)
         # Check if phrase matches message
         if triggers in message:
             # If it does, add a point
