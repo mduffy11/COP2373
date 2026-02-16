@@ -9,15 +9,29 @@ def prompter():
     print(clean_message)
 
     # Pass message to the scanner function for scoring
-    score = scanner(clean_message)
+    # (Change) scanner now returns a tuple: (score, hits)
+    score, hits = scanner(clean_message)
 
     # Print rating
     print(score)
+    rating = auditor(score)
+    print("The results are in: ", rating)
+
+    # (Added) Display the words/phrases which caused it to be spam
+    if len(hits) > 0:
+        print("Matched phrases:")
+        for phrase, occurrences in hits:
+            print(f"- {phrase} ({occurrences})")
+    else:
+        print("Matched phrases: None")
+
 
 # Function that prefers the inspection
 def scanner(message):
     # Initialize counter
     scam_score = 0
+    # (Added) Create a list of phrases that were matched
+    hits = []
     # Loop through the 30 phrases
     for phrase in triggers:
         # Clean the phrase before attempting to match
@@ -26,6 +40,12 @@ def scanner(message):
         occurrences = message.count(clean_phrase)
         # Add a point for each hit detected
         scam_score += occurrences
+        # (Fixed) If matches occurred, record phrase + count
+        if occurrences > 0:
+            hits.append((phrase, occurrences))
+
+    # (Fixed) Return score and hits AFTER scanning all phrases
+    return scam_score, hits
 
 
 # Function to clean messages before scanning
@@ -45,6 +65,7 @@ def normalizer(message):
     message = " ".join(message.split())
     # Send cleaned message back to call point
     return message
+
 
 def auditor(score):
     if score == 0:
