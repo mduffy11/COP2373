@@ -5,15 +5,11 @@ def prompter():
     # Clean the input before scanning
     clean_message = normalizer(message)
 
-    # Print the cleaned message for construction purposes
-    print(clean_message)
-
     # Pass message to the scanner function for scoring
     # (Change) scanner now returns a tuple: (score, hits)
     score, hits = scanner(clean_message)
 
     # Print rating
-    print(score)
     rating = auditor(score)
     print("The results are in: ", rating)
 
