@@ -35,7 +35,7 @@ def prompter():
 
     # Print rating
     rating = auditor(score)
-    print("Spam score:", score)
+    print("\nSpam score:", score)
     print("The results are in: ", rating)
 
     # Display the words/phrases which caused it to be spam
