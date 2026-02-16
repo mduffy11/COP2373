@@ -8,8 +8,11 @@ def prompter():
     # Print the cleaned message for construction purposes
     print(clean_message)
 
-    # Pass message to the scanner function
-    scanner(message)
+    # Pass message to the scanner function for scoring
+    score = scanner(clean_message)
+
+    # Print rating
+    print(score)
 
 # Function that prefers the inspection
 def scanner(message):
@@ -17,12 +20,13 @@ def scanner(message):
     scam_score = 0
     # Loop through the 30 phrases
     for phrase in triggers:
+        # Clean the phrase before attempting to match
+        clean_phrase = normalizer(phrase)
         # Count each instance of the phrase found
-        occurrences = message.count(phrase)
-        # Check if phrase matches message
-        if triggers in message:
-            # If it does, add a point
-            scam_score += 1
+        occurrences = message.count(clean_phrase)
+        # Add a point for each hit detected
+        scam_score += occurrences
+
 
 # Function to clean messages before scanning
 def normalizer(message):
@@ -41,6 +45,18 @@ def normalizer(message):
     message = " ".join(message.split())
     # Send cleaned message back to call point
     return message
+
+def auditor(score):
+    if score == 0:
+        return "This message looks safe"
+    elif score == 1:
+        return "This message might be spam"
+    elif score == 2:
+        return "This message is probably spam"
+    elif score == 3:
+        return "This message is almost certainly spam"
+    else:
+        return "Call up the Prince of Nigeria, because this is spam"
 
 
 # List of spammy phrases to monitor for
