@@ -2,6 +2,12 @@
 def prompter():
     # Read input from the user
     message = input("Enter your message: ")
+    # Clean the input before scanning
+    clean_message = normalizer(message)
+
+    # Print the cleaned message for construction purposes
+    print(clean_message)
+
     # Pass message to the scanner function
     scanner(message)
 
