@@ -1,4 +1,19 @@
-# A program that calculates the user's total monthly expenses.
+# A program that calculates the user's total monthly expenses
+
+# Import reduce function
+import functools
+
+# A function to process exense calculations
+def calculator(expenses):
+    # Calculate monthly expense total
+    total = functools.reduce(lambda accumulator, current_record: accumulator + current_record[1], expenses, 0)
+    # Initialize variables for the minimum and maximum
+    max_record = None
+    min_record = None
+    max_ties = []
+    min_ties = []
+    # Return all calculated values
+    return total, max_record, min_record, max_ties, min_ties
 
 # A function to ask the user about their expenses
 def inquisitor():
