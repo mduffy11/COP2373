@@ -1,0 +1,84 @@
+# Technical Design Document: Duffy_ProgrammingExercise_3
+
+# Name: Duffy, Michael
+# Date: February 22, 2026
+# Program Description: A program that collects monthly expenses and uses reduce to display the total, highest, and lowest expense.
+
+## Function: calculator
+Analyzes a list of monthly expense records and calculates summary statistics.
+
+Parameters:
+    expenses (list): A list of expense records, where each record is [name (str), amount (float)].
+
+Variables:
+    total (float): The sum of all monthly expense amounts.
+    max_record (list): The single expense record with the highest amount (first wins ties).
+    min_record (list): The single expense record with the lowest amount (first wins ties).
+    max_amount (float): The highest amount used to detect ties.
+    min_amount (float): The lowest amount used to detect ties.
+    max_ties (list): All records tied for the highest amount in entry order.
+    min_ties (list): All records tied for the lowest amount in entry order.
+
+Logic:
+    1. Return safe empty results if the list of expenses is empty.
+    2. Use functools.reduce to sum all amounts into a total.
+    3. Use functools.reduce to select the record with the highest amount (first wins ties).
+    4. Use functools.reduce to select the record with the lowest amount (first wins ties).
+    5. Collect all records tied for the highest amount.
+    6. Collect all records tied for the lowest amount.
+    7. Return the calculated values.
+
+Return:
+    tuple: (total, max_record, min_record, max_ties, min_ties)
+
+## Function: inquisitor
+Prompts the user to enter monthly expenses as name-and-amount records.
+
+Parameters:
+    None
+
+Variables:
+    expenses (list): Stores all entered records as [name, amount].
+    record (list): Stores one expense record as [name, amount].
+    record_name (str): The expense name entered by the user.
+    record_amount (str): The raw amount input entered by the user before conversion.
+    amount (float): The validated monthly amount rounded to two decimals.
+
+Logic:
+    1. Initialize an empty list to store expense records.
+    2. Loop until the user presses Enter on an expense name.
+    3. Validate and convert the amount to a float rounded to two decimals.
+    4. Reject invalid numbers and reject amounts less than $0.01.
+    5. Append each completed record to the list.
+    6. Return the list of expense records.
+
+Return:
+    list: The list of expense records entered by the user.
+
+## Function: main
+Runs the monthly budget calculator by collecting input, analyzing expenses, and printing results.
+
+Parameters:
+    None
+
+Variables:
+    expenses (list): The list of expense records returned by inquisitor().
+    total (float): The monthly total returned by calculator().
+    max_record (list): The single highest expense record returned by calculator().
+    min_record (list): The single lowest expense record returned by calculator().
+    max_ties (list): The list of records tied for highest amount returned by calculator().
+    min_ties (list): The list of records tied for lowest amount returned by calculator().
+    record (list): A record used when printing tied results.
+
+Logic:
+    1. Print program instructions.
+    2. Collect expense records from the user.
+    3. Handle the case where no expenses are entered.
+    4. Call calculator() to compute totals and extremes using reduce.
+    5. Print the total, highest, and lowest expenses with labels and currency formatting.
+    6. Print tied records when more than one record shares the max or min amount.
+
+Return:
+    None
+
+# Link to your repository: https://github.com/mduffy11/COP2373/
