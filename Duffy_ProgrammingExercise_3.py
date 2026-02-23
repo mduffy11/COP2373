@@ -1,18 +1,32 @@
 # A program that calculates the user's total monthly expenses
 
-# Import reduce function
 import functools
 
-# A function to process exense calculations
 def calculator(expenses):
-    # Calculate monthly expense total
-    total = functools.reduce(lambda accumulator, current_record: accumulator + current_record[1], expenses, 0)
-    # Initialize variables for the minimum and maximum
-    max_record = None
-    min_record = None
-    max_ties = []
-    min_ties = []
-    # Return all calculated values
+    # Return safe empty results if the user entered no expenses.
+    if len(expenses) == 0:
+        return 0, None, None, [], []
+
+    # Reduce the expense list into a single total by addin each record's amount.
+    total = functools.reduce(lambda running_total, current_record: running_total + current_record[1], expenses, 0)
+
+    # Reduce the expense list into the single record with the highest amount with first winning a tie.
+    max_record = functools.reduce(lambda best_record, current_record:
+            best_record if best_record[1] >= current_record[1] else current_record, expenses)
+
+    # Reduce the expense list into the single record with the lowest amount with first winning a tie.
+    min_record = functools.reduce(lambda best_record, current_record:
+            best_record if best_record[1] <= current_record[1] else current_record, expenses)
+
+    # Store the winning max and min amounts so we can collect tied records.
+    max_amount = max_record[1]
+    min_amount = min_record[1]
+
+    # Collect all records that tie for the maximum or minimum amount in entry order.
+    max_ties = [expense_record for expense_record in expenses if expense_record[1] == max_amount]
+    min_ties = [expense_record for expense_record in expenses if expense_record[1] == min_amount]
+
+    # Return the total, the winning max and min records, and the tie lists.
     return total, max_record, min_record, max_ties, min_ties
 
 # A function to ask the user about their expenses
