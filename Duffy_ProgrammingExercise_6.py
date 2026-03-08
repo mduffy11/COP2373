@@ -1,3 +1,13 @@
+def validate_zip(zip_code):
+
+    # Validate zip code with regular expression pattern
+    pattern = r"\d{5}(-\d{4})?"
+
+    if re.fullmatch(pattern, zip_code):
+        return True
+    else:
+        return False
+
 def main():
     print("Welcome To The Personal Information Validator!")
     print("Please enter your information to be validated.\n")
