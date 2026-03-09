@@ -1,6 +1,15 @@
+def validate_ssn(ssn):
+    # Validate standard SSN with or without hyphen
+    pattern = r"(\d{3}-\d{2}-\d{4})|(\d{9})"
+
+    if re.fullmatch(pattern, ssn):
+        return True
+    else:
+        return False
+
 def validate_zip(zip_code):
 
-    # Validate zip code with regular expression pattern
+    # Validate 5 or 9 digit zip code pattern
     pattern = r"\d{5}(-\d{4})?"
 
     if re.fullmatch(pattern, zip_code):
