@@ -20,18 +20,17 @@ def validate_phone(phone_number):
     Return:
         bool: True if the phone number is valid, or False otherwise.
     """
-    # Match these one of these phone formats: (xxx) xxx-xxxx, xxx-xxx-xxxx,
-    #								xxx.xxx.xxxx, xxx xxx xxxx, or xxxxxxxxxx.
-    pattern = r"""
-        \(\d{3}\) \d{3}-\d{4} |   # (xxx) xxx-xxxx
-        \d{3}-\d{3}-\d{4}      |   # xxx-xxx-xxxx
-        \d{3}\.\d{3}\.\d{4}    |   # xxx.xxx.xxxx
-        \d{3} \d{3} \d{4}      |   # xxx xxx xxxx
-        \d{10}                      # xxxxxxxxxx
-    """
+    # Match these phone formats: (xxx) xxx-xxxx, xxx-xxx-xxxx, xxx.xxx.xxxx, xxx xxx xxxx, or xxxxxxxxxx.
+    pattern = (
+        r"\(\d{3}\) \d{3}-\d{4}|"
+        r"\d{3}-\d{3}-\d{4}|"
+        r"\d{3}\.\d{3}\.\d{4}|"
+        r"\d{3} \d{3} \d{4}|"
+        r"\d{10}"
+    )
 
     # Return True only when the full phone number matches the pattern.
-    if re.fullmatch(pattern, phone_number, re.VERBOSE):
+    if re.fullmatch(pattern, phone_number):
         return True
     else:
         return False
