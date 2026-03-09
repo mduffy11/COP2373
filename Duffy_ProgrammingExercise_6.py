@@ -1,4 +1,20 @@
+import re
+
+def validate_phone(phone_number):
+
+    # Validate phone number using possible standard formats
+    # The Formats: (xxx) xxx-xxxx, xxx-xxx-xxxx, xxx.xxx.xxxx,
+    #               xxx xxx xxxx, xxxxxxxxxx
+    pattern = r"(\(\d{3}\) \d{3}-\d{4})|(\d{3}-\d{3}-\d{4})|(\d{3}\.\d{3}\.\d{4})|(\d{3} \d{3} \d{4})|(\d{10})"
+
+    # re.fullmatch() ensures the entire string matches the pattern, no partial matches allowed
+    if re.fullmatch(pattern, phone_number):
+        return True
+    else:
+        return False
+
 def validate_ssn(ssn):
+
     # Validate standard SSN with or without hyphen
     pattern = r"(\d{3}-\d{2}-\d{4})|(\d{9})"
 
