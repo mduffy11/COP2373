@@ -111,7 +111,7 @@ def main():
         zip_input (str): The ZIP code entered by the user after stripping outside whitespace.
         phone_checked (bool): The validation result returned by validate_phone().
         ssn_checked (bool): The validation result returned by validate_ssn().
-        zip_valid (bool): The validation result returned by validate_zip().
+        zip_checked (bool): The validation result returned by validate_zip().
 
     Logic:
         1. Print a welcome message and brief program instructions.
@@ -135,7 +135,7 @@ def main():
     # Store the results returned by each validation function.
     phone_checked = validate_phone(phone_input)
     ssn_checked = validate_ssn(ssn_input)
-    zip_valid = validate_zip(zip_input)
+    zip_checked = validate_zip(zip_input)
 
     # Print the validation results heading.
     print("\nValidation Results:")
@@ -153,7 +153,7 @@ def main():
         print("The social security number you entered is invalid.")
 
     # Print whether the ZIP code is valid or invalid.
-    if zip_valid:
+    if zip_checked:
         print("The ZIP code you entered is valid.")
     else:
         print("The ZIP code you entered is invalid.")
