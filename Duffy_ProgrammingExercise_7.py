@@ -10,7 +10,7 @@ def acceptor():
 
     sentence_count, sentence_list = enumerator(paragraph)
 
-def enumerator(paragraph):
+#def enumerator(paragraph):
 
 
 
