@@ -1,0 +1,67 @@
+# Technical Design Document: Duffy_ProgrammingExercise_7
+
+# Name: Duffy, Michael
+# Date: March 22, 2026
+# Program Description: A program that accepts a paragraph, uses regular expressions to enumerate its sentences, and displays the total number of matched sentences.
+
+## Function: acceptor
+Collects a paragraph from the user and displays the matched sentences.
+
+Parameters:
+    None
+
+Variables:
+    paragraph (str): The paragraph entered by the user.
+    sentence_count (int): The number of matched sentences returned by enumerator().
+    sentence_list (list): The list of matched sentence strings returned by enumerator().
+    index (int): The numbered position of each sentence in the displayed output.
+    sentence (str): The current sentence being displayed from sentence_list.
+
+Logic:
+    1. Print a welcome message and brief program instructions.
+    2. Prompt the user to enter a paragraph.
+    3. Pass the paragraph to enumerator() for sentence matching.
+    4. Print the total number of matched sentences.
+    5. Print each matched sentence with its numbered position.
+
+Return:
+    None
+
+## Function: enumerator
+Matches complete sentences in a paragraph and counts how many are found.
+
+Parameters:
+    paragraph (str): The paragraph entered by the user for sentence matching.
+
+Variables:
+    pattern (str): The regular expression pattern used to match sentences that
+        begin with a capital letter or number and end with sentence punctuation.
+    sentence_list (list): The list of sentence strings matched in the paragraph.
+    sentence_count (int): The total number of matched sentences in sentence_list.
+
+Logic:
+    1. Store the regular expression pattern for sentence matching.
+    2. Use re.findall() to collect every matching sentence in the paragraph.
+    3. Count the number of matched sentences.
+    4. Return the sentence count and the list of matched sentences.
+
+Return:
+    int: The total number of matched sentences.
+    list: The list of matched sentence strings.
+
+## Function: main
+Runs the sentence enumeration program.
+
+Parameters:
+    None
+
+Variables:
+    None
+
+Logic:
+    1. Call acceptor() to collect input and display the results.
+
+Return:
+    None
+
+# Link to your repository: https://github.com/mduffy11/COP2373/
