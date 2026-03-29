@@ -41,5 +41,32 @@ def write_csv():
                 print("Please enter exactly three numerical grades separated by spaces or commas.")
 
             writer.writerow([first_name, last_name, exam1, exam2, exam3])
+    print("The grades have been written to the grades.csv file.")
+
+def read_csv():
+
+    with open("grades.csv", "r", newline="") as csv_file:
+        reader = csv.reader(csv_file)
+
+        print("\nStudent Grades")
+        print()
+
+        for row_number, row in enumerate(reader):
+            print("{:<15}{:<20}{:<10}{:<10}{:<10}".format(
+                row[0], row[1], row[2], row[3], row[4]
+            ))
+
+            if row_number == 0:
+                print("-" * 65)
+
+def main():
+
+    write_csv()
+    print("\nThe grades.csv file has been created.\n")
+    read_csv()
+
+
+if __name__ == "__main__":
+    main()
 
 write_csv()
