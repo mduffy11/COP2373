@@ -1,0 +1,78 @@
+# Technical Design Document: Duffy_ProgrammingExercise_8
+
+# Name: Duffy, Michael
+# Date: March 29, 2026
+# Program Description: A program that collects student names and exam grades, writes each record to a CSV file, and displays the stored data in tabular format.
+
+## Function: main
+Runs the csv writing and reading program.
+
+Parameters:
+    None
+
+Variables:
+    None
+
+Logic:
+    1. Call write_csv() to collect student data and create grades.csv.
+    2. Print a message confirming that grades.csv was created.
+    3. Call read_csv() to display the stored records in tabular format.
+
+Return:
+    None
+
+## Function: read_csv
+Reads grades.csv and displays the stored records in tabular format.
+
+Parameters:
+    None
+
+Variables:
+    reader (csv.reader): The csv reader object used to read rows from grades.csv.
+    row_number (int): The numbered position of the current row in the file.
+    row (list): The current row of data read from grades.csv.
+
+Logic:
+    1. Open grades.csv for reading with the csv module.
+    2. Print a title for the displayed table.
+    3. Loop through each row in grades.csv.
+    4. Display each row in aligned columns with string formatting.
+    5. Print a separator line after the header row.
+
+Return:
+    None
+
+## Function: write_csv
+Collects student names and exam grades, then writes each student record
+to grades.csv.
+
+Parameters:
+    None
+
+Variables:
+    students (int): The number of student records to enter.
+    writer (csv.writer): The csv writer object used to write rows to grades.csv.
+    count (int): The numbered position of the current student record being entered.
+    full_name (str): The student's full name entered by the user.
+    name_parts (list): The student's full name split into first and last name parts.
+    first_name (str): The student's first name.
+    last_name (str): The student's last name.
+    grades_input (str): The three exam grades entered on one line.
+    grade_parts (list): The three separated grade values entered by the user.
+    exam1 (int): The student's first exam grade.
+    exam2 (int): The student's second exam grade.
+    exam3 (int): The student's third exam grade.
+
+Logic:
+    1. Read the number of students to enter.
+    2. Open grades.csv for writing with the csv module.
+    3. Write the header row to grades.csv.
+    4. Loop through each student record to collect a name and three grades.
+    5. Validate the full name entry and split it into first and last name values.
+    6. Validate the grade entry and convert the three values to integers.
+    7. Write the completed student record to grades.csv.
+
+Return:
+    None
+
+# Link to your repository: https://github.com/mduffy11/COP2373/
