@@ -1,14 +1,23 @@
 import random
 
 
-# Prompt the user to choose which cards to replace.
-def get_draw_choices():
-    # Display the instructions once.
-    print("Enter card positions to replace.")
-    print("Use 1 through 5 separated by commas or spaces.")
+# Display the draw input instructions after invalid input.
+def display_error_message():
+    # Display the invalid input message.
+    print("I'm sorry, what was that?")
+
+    # Explain how to enter replacement choices.
+    print("Enter card positions 1 through 5 separated by commas or spaces.")
+
+    # Explain how to keep all cards.
     print("Enter 0 or press Enter to keep all cards.")
+
+    # Print a blank line after the message.
     print()
 
+
+# Prompt the user to choose which cards to replace.
+def get_draw_choices():
     # Repeat until valid input is entered.
     while True:
         # Collect the user's draw choices.
@@ -26,7 +35,7 @@ def get_draw_choices():
 
         # Reject input that contains anything other than digits.
         if not all(part.isdigit() for part in parts):
-            print("I'm sorry, what was that?")
+            display_error_message()
             continue
 
         # Convert the input pieces into integers.
@@ -34,7 +43,7 @@ def get_draw_choices():
 
         # Reject any numbers outside the valid range.
         if not all(1 <= choice <= 5 for choice in choices):
-            print("I'm sorry, what was that?")
+            display_error_message()
             continue
 
         # Remove duplicates and sort the positions.
@@ -47,10 +56,10 @@ def get_draw_choices():
 # Convert a card number into a card label.
 def format_card(card_num):
     # Store the possible card ranks.
-    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+    ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
     # Store the possible card suits.
-    suits = ['♣', '♦', '♥', '♠']
+    suits = ["♣", "♦", "♥", "♠"]
 
     # Find the rank for the card.
     rank = ranks[card_num % 13]
@@ -63,9 +72,9 @@ def format_card(card_num):
 
 
 # Display the current hand with card positions.
-def display_hand(hand):
+def display_hand(hand, heading):
     # Display a heading for the hand.
-    print("Your hand:")
+    print(heading)
 
     # Display each card with its position number.
     for i in range(len(hand)):
@@ -82,13 +91,12 @@ def play_hand(deck):
 
     # Display the opening deal message.
     print("Dealing 5 cards...")
-    print()
 
     # Deal the starting five-card hand.
     hand = [deck.deal() for _ in range(5)]
 
     # Display the starting hand.
-    display_hand(hand)
+    display_hand(hand, "Your hand:")
 
     # Collect the user's draw choices.
     choices = get_draw_choices()
@@ -106,9 +114,7 @@ def play_hand(deck):
         num_new_cards = len(choices)
 
         # Display the draw message.
-        print()
         print(f"Dealing {num_new_cards} new card(s)...")
-        print()
 
         # Deal the replacement cards.
         new_cards = [deck.deal() for _ in range(num_new_cards)]
@@ -118,13 +124,10 @@ def play_hand(deck):
 
     # Display a message if no cards were replaced.
     else:
-        print()
         print("Keeping all cards.")
-        print()
 
     # Display the final hand.
-    print("Final hand:")
-    display_hand(hand)
+    display_hand(hand, "Final hand:")
 
     # Move the draw discards into the discard pile.
     deck.discards_list.extend(draw_discards)
@@ -135,4 +138,97 @@ def play_hand(deck):
     # Display the deck status after the round.
     print(f"Cards remaining in deck: {len(deck.card_list)}")
     print(f"Cards in discard pile: {len(deck.discards_list)}")
-    print()
+
+
+# Define the Deck class.
+class Deck:
+
+    # Initialize the deck and discard pile.
+    def __init__(self):
+        # Store a standard 52-card deck as numbers 0 through 51.
+        self.card_list = [i for i in range(52)]
+
+        # Store an empty discard pile.
+        self.discards_list = []
+
+        # Shuffle the starting deck.
+        random.shuffle(self.card_list)
+
+    # Reshuffle the discard pile back into the deck.
+    def reshuffle(self):
+        # Stop if there are no discarded cards to reshuffle.
+        if len(self.discards_list) == 0:
+            return
+
+        # Display the reshuffle message.
+        print("Reshuffling deck...")
+        print()
+
+        # Add the discarded cards back into the deck.
+        self.card_list.extend(self.discards_list)
+
+        # Clear the discard pile.
+        self.discards_list = []
+
+        # Shuffle the refreshed deck.
+        random.shuffle(self.card_list)
+
+    # Deal one card from the deck.
+    def deal(self):
+        # Reshuffle automatically if the deck is empty.
+        if len(self.card_list) == 0:
+            self.reshuffle()
+
+        # Remove and return the top card from the deck.
+        return self.card_list.pop(0)
+
+
+# Start the poker draw program.
+def main():
+    # Create the deck object.
+    deck = Deck()
+
+    # Display the opening message.
+    print("Poker Draw")
+
+    # Repeat until the user chooses to quit.
+    while True:
+        # Play one full hand.
+        play_hand(deck)
+
+        # Repeat until the user enters a valid menu choice.
+        while True:
+            # Display the next action menu.
+            print("1. Deal a new hand")
+            print("2. Reshuffle and deal a new hand")
+            print("3. Quit")
+            print()
+
+            # Collect the user's menu choice.
+            choice = input("What would you like to do next?: ").strip()
+
+            # Deal a new hand if option 1 is chosen.
+            if choice == "1":
+                print()
+                break
+
+            # Reshuffle the deck if option 2 is chosen.
+            elif choice == "2":
+                print()
+                deck.reshuffle()
+                break
+
+            # End the program if option 3 is chosen.
+            elif choice == "3":
+                print()
+                print("Goodbye.")
+                return
+
+            # Display an error message for an invalid menu choice.
+            else:
+                print("I'm sorry, what was that?")
+                print()
+
+
+# Call the main function.
+main()
