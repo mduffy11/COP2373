@@ -1,5 +1,6 @@
-import random
 import sqlite3
+import random
+import matplotlib.pyplot as plt
 
 # Function to build the database
 def create_database(database):
@@ -60,7 +61,7 @@ city_data = {
     "Daytona Beach": 86015
 }
 
-# Store the historical growth profile for each city
+# Store growth models derived from each city's past population changes
 historical_profiles = {
     "Sarasota": {"avg": 0.004508, "min": -0.014769, "max": 0.026532},
     "Orlando": {"avg": 0.023265, "min": 0.007624, "max": 0.038443},
@@ -88,12 +89,12 @@ def simulate_population(connection, city_data, historical_profiles, years=20):
         # Set the first population value
         current_population = starting_population
 
-        # Get the historical profile for the city
+        # Get the historical growth model for the city
         profile = historical_profiles[city]
 
         # Loop through the next 20 years
         for year in range(2026, 2026 + years):
-            # Generate a growth rate based on historical values
+            # Generate a growth rate from the city's historical model
             growth_rate = random.triangular(
                 profile["min"],
                 profile["max"],
@@ -116,99 +117,146 @@ def simulate_population(connection, city_data, historical_profiles, years=20):
     connection.commit()
 
 
-# Function to print population records for one city
-def print_city_population(connection, city):
+# Function to let the user choose a city
+def choose_city(connection, show_list=True):
     # Create the cursor
     cursor = connection.cursor()
 
-    # Select the records for the chosen city
+    # Select all city names from the table
     cursor.execute("""
-        SELECT year, population
+        SELECT DISTINCT city
         FROM population
-        WHERE city = ?
-        ORDER BY year
-    """, (city,))
-
-    # Store the query results
-    rows = cursor.fetchall()
-
-    # Print the city heading
-    print(f"\nPopulation records for {city}:")
-
-    # Print each year and population value
-    for year, population in rows:
-        print(f"{year}: {population:,}")
-
-
-# Function to print a simple text chart for one city
-def print_city_growth_chart(connection, city):
-    # Create the cursor
-    cursor = connection.cursor()
-
-    # Select the records for the chosen city
-    cursor.execute("""
-        SELECT year, population
-        FROM population
-        WHERE city = ?
-        ORDER BY year
-    """, (city,))
-
-    # Store the query results
-    rows = cursor.fetchall()
-
-    # Find the highest population for scaling
-    max_population = max(population for year, population in rows)
-
-    # Print the chart heading
-    print(f"\nPopulation growth chart for {city}:")
-
-    # Print a scaled bar for each year
-    for year, population in rows:
-        bar_length = int((population / max_population) * 50)
-        print(f"{year}: {'*' * bar_length} {population:,}")
-
-
-# Function to count the rows in the table
-def count_population_rows(connection):
-    # Create the cursor
-    cursor = connection.cursor()
-
-    # Count the rows in the table
-    cursor.execute("""
-        SELECT COUNT(*)
-        FROM population
+        ORDER BY city
     """)
 
-    # Store the count result
-    count = cursor.fetchone()[0]
+    # Store the city names in a list
+    cities = [row[0] for row in cursor.fetchall()]
 
-    # Print the row count
-    print(f"\nRow count: {count}")
+    # Display the city choices
+    if show_list:
+        print("\nChoose a city to display population growth:")
+        for number, city in enumerate(cities, start=1):
+            print(f"{number}. {city}")
+
+    # Loop until the user enters a valid choice
+    while True:
+        try:
+            # Ask for the city number
+            choice = int(input("\nEnter the number of the city: "))
+
+            # Check that the choice is valid
+            if 1 <= choice <= len(cities):
+                # Return the selected city name
+                return cities[choice - 1]
+            else:
+                print("Enter a valid number from the list.")
+
+        except ValueError:
+            # Handle non-numeric input
+            print("Enter a whole number.")
 
 
-# Run a temporary simulation test
-random.seed()
+# Function to ask whether to display another city
+def choose_again():
+    # Loop until the user enters a valid answer
+    while True:
+        # Ask whether to continue
+        answer = input("\nWould you like to choose another city? (y/n): ").strip().lower()
 
-# Store the database file name
-database = "population_MD.db"
+        # Return True for yes
+        if answer == "y":
+            return True
 
-# Create the database connection
-connection = create_database(database)
+        # Return False for no
+        if answer == "n":
+            return False
 
-# Insert the starting city data
-insert_starting_data(connection, city_data)
+        # Prompt again for invalid input
+        print("Enter y for yes or n for no.")
 
-# Simulate the future population data
-simulate_population(connection, city_data, historical_profiles)
 
-# Print the total number of rows
-count_population_rows(connection)
+# Function to plot population growth for the selected city
+def plot_population(connection, selected_city):
+    # Create the cursor
+    cursor = connection.cursor()
 
-# Print the yearly population records for one city
-print_city_population(connection, "Orlando")
+    # Select the year and population data for the chosen city
+    cursor.execute("""
+        SELECT year, population
+        FROM population
+        WHERE city = ?
+        ORDER BY year
+    """, (selected_city,))
 
-# Print a simple text chart for one city
-print_city_growth_chart(connection, "Orlando")
+    # Store the results from the query
+    results = cursor.fetchall()
 
-# Close the database connection
-connection.close()
+    # Build the year list
+    years = [row[0] for row in results]
+
+    # Build the population list
+    populations = [row[1] for row in results]
+
+    # Create the graph window
+    plt.figure(figsize=(10, 6))
+
+    # Create the line graph
+    plt.plot(years, populations, marker="o")
+
+    # Add the graph title
+    plt.title(f"Population Change for {selected_city}")
+
+    # Label the x-axis
+    plt.xlabel("Year")
+
+    # Label the y-axis
+    plt.ylabel("Population")
+
+    # Add grid lines
+    plt.grid(True)
+
+    # Adjust the layout
+    plt.tight_layout()
+
+    # Display the graph
+    plt.show()
+
+
+# Function to run the full program
+def main():
+    # Store the database file name
+    database = "population_MD.db"
+
+    # Create the database connection
+    connection = create_database(database)
+
+    # Insert the starting city data
+    insert_starting_data(connection, city_data)
+
+    # Simulate the future population data
+    simulate_population(connection, city_data, historical_profiles)
+
+    # Display the city list once
+    show_list = True
+
+    # Keep prompting until the user chooses to stop
+    while True:
+        # Let the user choose a city
+        selected_city = choose_city(connection, show_list)
+
+        # Plot the selected city's population data
+        plot_population(connection, selected_city)
+
+        # Stop reprinting the city list
+        show_list = False
+
+        # Break the loop if the user does not want another city
+        if not choose_again():
+            break
+
+    # Close the database connection
+    connection.close()
+
+
+if __name__ == "__main__":
+    main()
